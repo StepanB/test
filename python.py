@@ -15,12 +15,18 @@ for filename in os.listdir(os.getcwd()):
 			print(data)
 			p = re.compile(r'<span class="sup">[\*\+\±]</span>')
 
-			i = 1
-			data = p.sub('<a class="sup" href="../Text/' + filename + '#ppc-' + str(i) + '" id="odkaz-' + str(i) + '">'+str(i)+'*</a>', data)
-							# <a class="sup" href="../Text/Investor-01-3.xhtml#ppc-1" id="odkaz-1">1*</a>
-			m = re.findall(p, data)
+			i = 0
+			
+			for m in re.finditer(p, data):
+				
+				i = i+1
 
-			print(m)
+				helper = p.sub('<a class="sup" href="../Text/' + filename + '#ppc-' + str(i) + '" id="odkaz-' + str(i) + '">'+str(i)+'*</a>', m.group(0))
+		
+	
+				m.group(0) = helper
+				print(m)
+
 			file = open(filename, "w", encoding="utf8")
 			file.write(data)
 			# file.write(data)
